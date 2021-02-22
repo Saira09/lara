@@ -16,13 +16,9 @@
                 color: #636b6f;
                 font-family: 'Nunito', sans-serif;
                 font-weight: 200;
-                height: 100vh;
                 margin: 0;
             }
 
-            .full-height {
-                height: 100vh;
-            }
 
             .flex-center {
                 align-items: center;
@@ -61,33 +57,7 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
-
-            span.sname{
-                position: relative;
-                left: -140px;
-                top: -30px;
-                width: 140px;
-                padding: 6px;
-                background: #E00;
-                color: #FFF;
-                text-align: center;
-                visibility: hidden;
-                border-radius: 5px;
-                opacity: 0.8;
-                z-index: 999;
-            }
-            span.sname:after{
-                content: '';
-                position: absolute;
-                top: 50px;
-                left: 100px;
-                margin-left: -8px;
-                width: 0;
-                height: 0;
-                border.top: 8px solid #E00;
-                border.right: 8px solid transparent;
-                border.left: 8px solid transparent;
-            }
+            
         </style>
 
         <script src="{{asset('js/jquery-3.3.1.js')}}"></script>

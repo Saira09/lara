@@ -76,13 +76,13 @@
                     <a href="{{ route('evaluar') }}">Evaluar</a>
                     <a href="{{ route('validar') }}">Validar</a>
                     <a href="{{ route('comprobar') }}">Comprobar</a>
-                    <a href="{{ route('calculadora') }}">T1-Calculadora</a><hr>
+
+                    <a href="{{ route('colores') }}">Ejemplo:Colores</a><hr>
+                    
                     <a href="{{ route('jquery') }}">Jquery: Basico</a>
                     <a href="{{ route('formulario') }}">Jquery: Formulario</a>
-                    <a href="{{ route('rotacion') }}">Jquery: Rotación</a>
-                    <a href="{{ route('contr') }}">Jquery: Contraseña</a>
-                    <a href="{{ route('cal') }}">Jquery: Calculadora</a><hr>
                     <a href="{{ route('entrada') }}">Jquery: Entrada | Login</a>
+                    <a href="{{ route('informacion') }}">Jquery: Lista</a><hr>
                    
                 </div>
             </div>

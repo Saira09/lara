@@ -19,7 +19,6 @@
                 margin: 0;
             }
 
-            .full-height {}
 
             .flex-center {
                 align-items: center;

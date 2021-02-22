@@ -16,14 +16,8 @@
                 color: #636b6f;
                 font-family: 'Nunito', sans-serif;
                 font-weight: 200;
-                height: 100vh;
                 margin: 0;
             }
-
-            .full-height {
-                height: 100vh;
-            }
-
             .flex-center {
                 align-items: center;
                 display: flex;
@@ -88,10 +82,18 @@
                  nombre = "Saira";
                  
                  for(x=0; x<10; x++){ console.log(x+1+" dato de "+nombre); }
-                 if(num1!-num2){ alert(num1+num2);}
+                 if(num1!=num2){ alert(num1+num2);}
                  //-----------------------------------------------
 
-                 $('#calcular').
+                 $('#calcular').click(function(e){
+                     e.preventDefault();
+                     var num1 = $('#num1').val();
+                     var num2 = $('#num2').val();
+                     var res = parseFloat(num1)+parseFloat(num1);
+
+                     $('#calcular').html(res);
+                     alert(res);
+                 });
              });
 
         </script>
@@ -112,6 +114,10 @@
                    <span id="texto">Campo-04</span><br>
                    <span>Campo-05</span><br>
                    <div id="texto">Campo-06</div>
+                   <br><hr>
+                   Primer Numero: <input type="text" id="num1"><br>
+                   segundo Numero: <input type="text" id="num2"><br>
+                   <button id="calcular">Calcular</button>
                 
                 </center>
                 <div class="links">
