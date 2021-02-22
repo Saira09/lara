@@ -18,4 +18,15 @@ class JqueryController extends Controller{
         return view('jquery/js_00')
           ->with(['usu' => $usu]);
     }
+
+    public function js01(Request $request){
+        $idtab = $request->get('idtab');
+        //dd($email);
+        
+        $usu = UsuariosModel::where('id_usuario',$idtab)->get();
+        //dd($usu);
+
+        return view('jquery/js_01')
+          ->with(['usu' => $usu]);
+    }
 }
