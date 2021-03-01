@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use App\UsuariosModel;
+use App\EstadosModel;
+use App\MunicipiosModel;
 
 class SistemController extends Controller{
 
@@ -18,5 +20,11 @@ class SistemController extends Controller{
 
         return view("informacion")
          ->with(['usus' => $usus]);
+    }
+
+    public function combos(){
+        $estados = EstadosModel::all();
+        return view('combos')
+             ->with(['estados'=>$estados]);;
     }
 }

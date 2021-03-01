@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use App\UsuariosModel;
+use App\EstadosModel;
+use App\MunicipiosModel;
+
 
 class JqueryController extends Controller{
    
@@ -28,5 +31,16 @@ class JqueryController extends Controller{
 
         return view('jquery/js_01')
           ->with(['usu' => $usu]);
+    }
+
+    public function js02(Request $request){
+      if($request->ajax()){
+              $municipios = MunicipiosModel::where('id_estado',$request->id_estado)->get();
+              foreach ($municipios as $municipio){
+                           $municipioshelp[$municipio->id_municipio] = $municipio->nombre;
+                           // var array[i]=n;
+                  }
+              return response()->json($municipioshelp);
+            }
     }
 }
