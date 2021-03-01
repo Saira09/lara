@@ -32,3 +32,5 @@ Route::name('informacion')->get('informacion/', 'SistemController@informacion');
 
 Route::name('js00')->get('js00/', 'JqueryController@js00');
 Route::name('js01')->get('js01/', 'JqueryController@js01');
+
+Route::name('gato')->get('gato/', function () {return view('gato'); });
