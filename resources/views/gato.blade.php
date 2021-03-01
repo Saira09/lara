@@ -1,247 +1,367 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <title>Laravel</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
-
-        <!-- Styles -->
-        <style>
-   
-body {
-    margin: 0px;
-}
-
-header {
-    min-height: 75px;
-    text-align: center;
-    background-color: black;
-}
-
-h1 {
-    margin: 0px;
-    color: white;
-    padding: 25px 0px;
-    user-select: none;
-}
-
-main {
-    text-align: center;
-}
-
-#info {
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 25px;
-}
-
-#infoP {
-    margin: 0;
-    margin-right: 8px;
-    user-select: none;
-}
-
-#infoImg {
-    width: 15px;
-    height: 15px;
-}
-
-#tablero {
-    margin-top: 65px;
-    display: inline-block;
-    border-radius: 10px;
-    padding: 25px;
-    background-color: #d9efff;
-}
-
-#tablero div {
-    display: flex;
-}
-
-.celda {
-    background-color: #65c1ff;
-    margin: 3px;
-    width: 75px;
-    height: 75px;
-    background-position: center;
-    background-size: 65%;
-    background-repeat: no-repeat;
-}
-
-.celda:hover {
-    background-color: #18a3ff;
-}
-
-.X {
-    background-image: url("../img/X.png");
-}
-
-.O {
-    background-image: url("../img/O.png");
-}
-
-.raya {
-    background-color: #f8e57a !important;
-}
-
-.desactivada {
-    pointer-events: none;
-}
-
-#reiniciar {
-    margin: 25px 3px 0px 3px;
-    justify-content: center;
-    align-items: center;
-    background-color: #65c1ff;
-    padding: 8px 12px;
-}
-
-#reiniciar:hover {
-    background-color: #18a3ff;
-}
-
-#reiniciar p {
-    margin: 0;
-    margin-right: 8px;
-    user-select: none;
-}
-
-#reiniciar img {
-    width: 15px;
-    height: 15px;
-}
-        </style>
-
-             <head>
+<head>
 	<script>
-		let ticTacToe = (function () {
-    const JUGADOR_X = "X"; // Jugador X
-    const JUGADOR_O = "O"; // Jugador O
-
-    let tablero = [0, 0, 0, 0, 0, 0, 0, 0, 0]; // Tablero del juego
-    let turno = JUGADOR_X; // Turno acual
-
-    /**
-     * Devolver el turno actual
-     * 
-     * @returns {Number} Turno actual
-     */
-    let getTurno = function () {
-        return turno;
-    }
-
-    /**
-     * Comprobar una raya del tablero
-     * 
-     * @param {Number} resultado Resultado de la raya
-     * @param {Array} raya Array con los índices las celdas de la raya
-     * 
-     * @throws Estado de la partida, jugador ganador y array con los índices de la raya con la que gana
-     */
-    let comprobar = function (resultado, raya) {
-        if (resultado === 8) throw {finPartida: true, ganador: JUGADOR_X, raya: raya};
-        if (resultado === 27) throw {finPartida: true, ganador: JUGADOR_O, raya: raya};
-    }
-
-    /**
-     * Colocar ficha en la celda y comprobar la jugada
-     * 
-     * @param {Number} celda Celda
-     * 
-     * @returns Estado de la partida y en caso de que termine, jugador ganador y array con los índices
-     * de la raya con la que gana
-     */
-    let clickCelda = function (celda) {
-        try {
-            tablero[celda] = turno === JUGADOR_X ? 2 : 3; // Colocar ficha (2 para las X y 3 para las O)
-            turno = turno === JUGADOR_X ? JUGADOR_O : JUGADOR_X; // Cambio de turno
-
-            // Comprobar si es jugada ganadora o empate y la partida termina
-            comprobar(tablero[0] * tablero[1] * tablero[2], [0, 1, 2]); // Horizontal 1
-            comprobar(tablero[3] * tablero[4] * tablero[5], [3, 4, 5]); // Horizontal 1
-            comprobar(tablero[6] * tablero[7] * tablero[8], [6, 7, 8]); // Horizontal 3
-            comprobar(tablero[0] * tablero[3] * tablero[6], [0, 3, 6]); // Vertical 1
-            comprobar(tablero[1] * tablero[4] * tablero[7], [1, 4, 7]); // Vertical 1
-            comprobar(tablero[2] * tablero[5] * tablero[8], [2, 5, 8]); // Vertical 3
-            comprobar(tablero[0] * tablero[4] * tablero[8], [0, 4, 8]); // Diagonal 1
-            comprobar(tablero[2] * tablero[4] * tablero[6], [2, 4, 6]); // Diagonal 2
-            if (tablero.every((celda) => celda !== 0)) throw {finPartida: true, ganador: "empate"}; // Empate
-
-            return {finPartida: false}; // La partida continúa
-        } catch (resultado) {
-            return resultado; // La partida termina
-        }
-    }
-
-    return {
-        clickCelda: clickCelda,
-        getTurno: getTurno
-    }
-})();
-$(function () {
-
-// Celdas
-let $celdas = $(".celda");
-
-// Espacio donde se muestra el estado de la partida
-let $infoP = $("#infoP"); // Texto de información
-let $infoImg = $("#infoImg"); // Imagen de información
-
-// Listener para las celdas
-$celdas.click(function () {
-    $(this).addClass(ticTacToe.getTurno() + " desactivada");
-    let resultado = ticTacToe.clickCelda($celdas.index($(this)));
-    if (resultado.finPartida) {
-        if (resultado.ganador === "empate") {
-            $infoP.html("Empate");
-            $infoImg.css("display", "none");
-        } else {
-            $infoP.html("Ha ganado");
-            $celdas.addClass("desactivada");
-            $celdas.filter(function (index) {return resultado.raya.includes(index)})
-                .fadeOut()
-                .addClass("raya")
-                .fadeIn()
-                .fadeOut()
-                .fadeIn();
-        }
-    } else {
-        $infoImg.attr("src", "img/" + ticTacToe.getTurno() + ".png");
-    }
-});
-
-// Reiniciar la partida
-$("#reiniciar").click(function () {
-    location.reload();
-});
-});
+		/* VARIABLES DEL JUEGO */
+		var ctx, canvas;
+		var tiradas, gameOver;
+		var fichas_array;
+ 
+		var ancho       = 800;
+		var alto        = 480;
+		var COLUMNAS    = 3;
+		var RENGLONES   = 3;
+		var fichas_X    = 0;
+		var fichas_O    = 0;
+		var largo       = 120;
+		var colorGato   = "black";
+		var colorCanvas = "black";
+ 
+		window.onload = iniciar;
+ 
+		/* INICIAR EL JUEGO */
+		function iniciar(){
+			canvas        = document.getElementById("miCanvas");
+			canvas.width  = ancho;
+			canvas.height = alto;
+			if(canvas && canvas.getContext){
+				ctx = canvas.getContext("2d");
+				if(ctx){
+					canvas.removeEventListener("click",iniciar,false);
+					fichas_array = [];
+					gameOver     = false;
+					tiradas      = 0;
+ 
+					gato();
+					mensaje("Inicia Juego");
+					canvas.addEventListener("click",selecciona,false);
+				}else{
+					document.write("Tu navegador no soporta canvas");
+				}
+			}
+		}
+ 
+		/* CREAR EL TABLERO */
+		function gato(){
+			ctx.fillStyle   = colorCanvas;
+			ctx.strokeStyle = colorGato;
+			ctx.lineWidth   = 20;
+ 
+			/* Dibujar el # */
+			ctx.beginPath();
+			ctx.moveTo(330,20);
+			ctx.lineTo(330,420);
+			ctx.stroke();
+ 
+			ctx.beginPath();
+			ctx.moveTo(470,20);
+			ctx.lineTo(470,420);
+			ctx.stroke();
+ 
+			ctx.beginPath();
+			ctx.moveTo(200,150);
+			ctx.lineTo(600,150);
+			ctx.stroke();
+ 
+			ctx.beginPath();
+			ctx.moveTo(200,290);
+			ctx.lineTo(600,290);
+			ctx.stroke();
+ 
+			/* Creacion de las cassillas para las fichas */
+			fichas_array.push(new Ficha(200, 20,largo,largo,0,0,0));
+			fichas_array.push(new Ficha(330, 20,largo,largo,1,0,1));
+			fichas_array.push(new Ficha(470, 20,largo,largo,2,0,2));
+ 
+			fichas_array.push(new Ficha(200,150,largo,largo,3,1,0));
+			fichas_array.push(new Ficha(330,150,largo,largo,4,1,1));
+			fichas_array.push(new Ficha(470,150,largo,largo,5,1,2));
+ 
+			fichas_array.push(new Ficha(200,290,largo,largo,6,2,0));
+			fichas_array.push(new Ficha(330,290,largo,largo,7,2,1));
+			fichas_array.push(new Ficha(470,290,largo,largo,8,2,2));
+ 
+		}
+ 
+		/* CREA LAS FICHAS */
+		function Ficha(x,y,w,h,i,ren,col){
+			this.x=x;
+			this.y=y;
+			this.w=w;
+			this.h=h;
+			this.i=i;
+			this.ren=ren;
+			this.col=col;
+			this.peso=0;
+			this.valor="";
+			this.pinta=pintaFicha;
+		}
+		/* DIBUJAR LA FICHA */
+		function pintaFicha(valor){
+			this.valor=valor;
+			ctx.font="bold 100px Arial";
+			ctx.fillStyle=colorGato;
+			ctx.fillText(valor,this.x+30,this.y+100,this.w,this.h);
+		}
+ 
+		/* MOSTRAR MENJAES AL USUARIO */
+		function mensaje(cadena){
+			var lon=(canvas.width-(25*cadena.length))/2;
+			ctx.strokeStyle=colorGato;
+			ctx.clearRect(0,420,canvas.width,100);
+			ctx.font="bold 40px Courier";
+			ctx.fillText(cadena,lon,470);
+		}
+ 
+		/* SELECCIONAR UNA CASILLA */
+		function selecciona(e){
+			canvas.removeEventListener("click",selecciona,false);
+			var pos = ajusta(e.clientX, e.clientY);
+			var x = pos.x;
+			var y = pos.y;
+			var ficha;
+			for(var i=0; i<fichas_array.length; i++){
+				ficha=fichas_array[i];
+				if( (x>ficha.x) && (x<ficha.x+ficha.w) && (y>ficha.y) && (y<ficha.y+ficha.h) ){
+					if(ficha.valor==""){
+						tiradas++;
+						break;
+					}
+				}
+			}
+			if(i<fichas_array.length){
+				console.log(i);
+				if(ficha.valor==""){
+					ficha.pinta("X");
+					verifica(false);
+					if(!gameOver){
+						mensaje("Turno O");
+						setTimeout(tiraMaquina,1000);
+					}
+ 
+				}
+			}else{
+				canvas.addEventListener("click",selecciona,false);
+			}
+		}
+		/* CONVERTIR LAS CORDENADAS DE LA VENTANA A CORDENADAS DENTRO DEL CANVAS */
+		function ajusta(xx,yy){
+			var posCanvas = canvas.getBoundingClientRect();
+			var x = xx-posCanvas.left;
+			var y = yy-posCanvas.top;
+			return {x:x,y:y}
+		}
+ 
+		/* REALIZA LA JUGADA DE LA MAQUINA */
+		function tiraMaquina(){
+			tiradas++;
+			console.log("Tirada numero: "+tiradas);
+			if(gameOver==false){
+				verifica(true);
+ 
+				var mejorJugada=0;
+				var posibilidades=[];
+				for(var i=0; i<fichas_array.length; i++){
+					ficha=fichas_array[i];
+					if(ficha.peso > mejorJugada){
+						mejorJugada=ficha.peso;
+						posibilidades=[];
+						posibilidades.push(i);
+ 
+						//ii=i;
+					}else if (ficha.peso==mejorJugada){
+						posibilidades.push(i);
+					}
+				}
+ 
+ 
+				elegir = Math.floor(Math.random()*(posibilidades.length-1));
+				ii=posibilidades[elegir];
+				ficha= fichas_array[ii];
+				ficha.pinta("O");
+ 
+				console.log("Jugada :"+ficha.ren+", "+ficha.col+" "+ficha.i);
+				console.log("-----------------");
+ 
+				verifica(false);
+				if(!gameOver){
+					canvas.addEventListener("click",selecciona,false);
+				}
+			}
+		}
+		/* ASIGNA PUNTAJE A LAS CASILLAS PARA ELEGIR LA MEJOR JUGADA */
+		function pesoFicha(i,fichas_O,fichas_X){
+			ficha = fichas_array[i];
+			if(ficha.valor==""){
+				// Para ganar
+				if(fichas_O==2 && fichas_X==0){
+					if(ficha.peso<10) ficha.peso =10;
+				}
+				// Para no perder
+				else if(fichas_O == 0 && fichas_X==2){
+					if(ficha.peso< 6) ficha.peso =6;
+				}
+				// Para intentar ganar
+				else if (fichas_O == 1 && fichas_X==0){
+					if(ficha.peso< 3) ficha.peso =3;
+				// Para poner ficha sin importancia.
+				}else{
+					if(ficha.peso< 1) ficha.peso =1;
+				}
+			}else{
+				ficha.peso =0;
+			}
+		}
+ 
+		/* COMPROBAR TODO EN UNO */
+		function verifica(calculaPeso){
+			verificaRenglones(calculaPeso);
+			verificaColumnas(calculaPeso);
+			verificaDiagonal1(calculaPeso);
+			verificaDiagonal2(calculaPeso);
+		}
+ 
+		/* COMPROBAR - SI HAY 3 */
+		function verificaRenglones(calculaPeso){
+			if(gameOver==false){
+				for(i=0; i<RENGLONES; i++){
+					fichas_X=0;
+					fichas_O=0;
+					for(j=0; j<COLUMNAS; j++){
+						ficha = buscarFicha(i,j);
+						fichas_X += (ficha.valor=="X"?1:0);
+						fichas_O += (ficha.valor=="O"?1:0);
+					}
+					if(calculaPeso){
+						for(j=0; j<COLUMNAS; j++){
+							ficha=buscarFicha(i,j);
+							pesoFicha(ficha.i,fichas_O,fichas_X);
+						}
+					}
+					gameOver=verificaFin(fichas_O,fichas_X);
+					if(gameOver) break;
+				}
+			}
+		}
+		/* COMPROBAR | SI HAY 3 */
+		function verificaColumnas(calculaPeso){
+			if(gameOver==false){
+				for(j=0; j<COLUMNAS; j++){
+					fichas_X=0;
+					fichas_O=0;
+					for(i=0; i<RENGLONES; i++){
+						ficha = buscarFicha(i,j);
+						fichas_X += (ficha.valor=="X"?1:0);
+						fichas_O += (ficha.valor=="O"?1:0);
+					}
+					if(calculaPeso){
+						for(i=0; i<RENGLONES; i++){
+							ficha=buscarFicha(i,j);
+							pesoFicha(ficha.i,fichas_O,fichas_X);
+						}
+					}
+					gameOver=verificaFin(fichas_O,fichas_X);
+					if(gameOver) break;
+				}
+			}
+		}
+		/* COMPROBAR \ SI HAY 3 */
+		function verificaDiagonal1(calculaPeso){
+			if(gameOver==false){
+				fichas_X=0;
+				fichas_O=0;
+				for(var i=0; i<RENGLONES; i++){
+					ficha=buscarFicha(i,i);
+					fichas_X += (ficha.valor=="X"?1:0);
+					fichas_O += (ficha.valor=="O"?1:0);
+				}
+				console.log("D1:X"+fichas_X+", O:"+fichas_O);
+				if(calculaPeso){
+					for(i=0; i<RENGLONES; i++){
+						ficha=buscarFicha(i,i);
+						pesoFicha(ficha.i,fichas_O,fichas_X);
+						console.log("Ficha: "+ficha.i+" peso: "+ficha.peso);
+					}
+				}
+				gameOver=verificaFin(fichas_O,fichas_X);
+			}
+		}
+		/* COMPROBAR / SI HAY 3 */
+		function verificaDiagonal2(calculaPeso){
+			if(gameOver==false){
+				fichas_X=0;
+				fichas_O=0;
+				j=2;
+				for(var i=0; i<RENGLONES; i++){
+					ficha=buscarFicha(i,j);
+					fichas_X += (ficha.valor=="X"?1:0);
+					fichas_O += (ficha.valor=="O"?1:0);
+					j--;
+				}
+				console.log("D1:X"+fichas_X+", O:"+fichas_O);
+				if(calculaPeso){
+					j=2;
+					for(i=0; i<RENGLONES; i++){
+						ficha=buscarFicha(i,j);
+						pesoFicha(ficha.i,fichas_O,fichas_X);
+						console.log("Ficha: "+ficha.i+" peso: "+ficha.peso);
+						j--;
+					}
+				}
+				gameOver=verificaFin(fichas_O,fichas_X);
+			}
+		}
+ 
+		/* DEVUELVE LA FICHA DE LA CASILLA SOLICITADA */
+		function buscarFicha(ren,col){
+			for(var i=0; i<fichas_array.length; i++){
+				ficha=fichas_array[i];
+				if(ficha.ren==ren && ficha.col==col){
+					break;
+				}
+			}
+			return ficha;
+		}
+ 
+		/* COMPROBAR SI GANA, PIERDE O EMPATA */
+		function verificaFin(O,X){
+			var fin=false;
+			if(X==3){
+				fin=true;
+				mensaje("!GANASTE!");
+			}
+			if(O==3){
+				fin=true;
+				mensaje("¡Perdiste!");
+			}
+ 
+			if(!fin){
+				if(tiradas<9){
+					mensaje("Turno X");
+				}else{
+					fin=true;
+					mensaje("¡Empate!");
+				}
+			}
+ 
+			if(fin){
+				canvas.addEventListener("click",iniciar,false);
+			}
+			return fin;
+		}
 	</script>
+	<style>
+		body{
+			width:800px;
+			margin:auto;
+		}
+		h1{
+			text-align:center
+		}
+		#miCanvas{
+			border:solid 1px;
+		}
+	</style>
 </head>
 <body>
 	<h1>Tres en raya</h1>
 	<canvas id="miCanvas">canvas>
 </body>
-
-        </script>
-        </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel-Jquery: Basico
-                </div>
-                <br><hr>
-
-                <center>
-                   
-                </center>
-                <div class="links">
-                    <a href="{{ route('inicio') }}">Inició</a>
-                </div>
-        </script>
-    </body>
-</html>
