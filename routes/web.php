@@ -17,7 +17,7 @@ Route::name('campos')->get('campos/', function () {return view('campos'); });
 Route::name('evaluar')->get('evaluar/', function () {return view('evaluar'); });
 Route::name('validar')->get('validar/', function () {return view('validar'); });
 Route::name('comprobar')->get('comprobar/', function () {return view('comprobar'); });
-Route::name('random')->get('random/', function () {return view('random'); });
+Route::name('random')->get('random/', function () {return view('R'); });
 
 Route::name('colores')->get('colores/', function () {return view('colores'); });
 //-------------------------------------------------------------
