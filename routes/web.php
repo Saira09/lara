@@ -17,6 +17,7 @@ Route::name('campos')->get('campos/', function () {return view('campos'); });
 Route::name('evaluar')->get('evaluar/', function () {return view('evaluar'); });
 Route::name('validar')->get('validar/', function () {return view('validar'); });
 Route::name('comprobar')->get('comprobar/', function () {return view('comprobar'); });
+Route::name('random')->get('random/', function () {return view('random'); });
 
 Route::name('colores')->get('colores/', function () {return view('colores'); });
 //-------------------------------------------------------------
@@ -28,9 +29,13 @@ Route::name('formulario')->get('formulario/', function () {return view('formular
 //--------------------------------------------------------------------------------
 Route::name('entrada')->get('entrada/', 'SistemController@entrada');
 Route::name('informacion')->get('informacion/', 'SistemController@informacion');
+Route::name('combos')->get('combos/', 'SistemController@combos');
+Route::name('datos')->post('datos/', 'SistemController@datos');
 
 
 Route::name('js00')->get('js00/', 'JqueryController@js00');
 Route::name('js01')->get('js01/', 'JqueryController@js01');
-
+Route::name('js02')->get('js02/', 'JqueryController@js02');
+Route::name('js02b')->get('js02b/', 'JqueryController@js02b');
+//---------------------------------------------------------------------///
 Route::name('gato')->get('gato/', function () {return view('gato'); });

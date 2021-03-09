@@ -16,14 +16,8 @@
                 color: #636b6f;
                 font-family: 'Nunito', sans-serif;
                 font-weight: 200;
-                height: 100vh;
                 margin: 0;
             }
-
-            .full-height {
-                height: 100vh;
-            }
-
             .flex-center {
                 align-items: center;
                 display: flex;
@@ -62,33 +56,49 @@
                 margin-bottom: 30px;
             }
         </style>
-    </head>
+
+        
+        <script src="{{asset('js/jquery-3.3.1.js')}}"></script>
+        <script src="{{asset('js/jquery-ui.js')}}"></script>
+ 
+ 
+       
+        <script type="text/javascript">
+             $(document).ready(function(){
+                 var arreglo = ['Nombre 1', 'Nombre 2', 'Nombre 3', 'Nombre 4'];
+
+                 $("#random").click(function(){
+                     var rand1 = arreglo[(Math.random() *arreglo.length)|0]; 
+                     var rand2 = Math.floor((Math.random() *arreglo.length));
+                     var dato = arreglo[rand2];
+
+                     $("#contenido").html(rand1 + "\n" + rand2 + " : " + dato);
+                 });
+                 $("#arreglo").html(arreglo);
+             });
+
+        </script>
+        </head>
     <body>
         <div class="flex-center position-ref full-height">
             <div class="content">
                 <div class="title m-b-md">
-                    Inicio
+                    Laravel-Jquery: Random
                 </div>
+                <br><hr>
 
+                <center>
+                  <div id="arreglo"></div><br>
+                  <hr>
+                  <button id="random">Random</button>
+                  <br>
+                  <textarea id="contenido">Mostrar Random</textarea>
+                  <br><br>
+                  <hr>
+                </center>
                 <div class="links">
-                    <a href="{{ route('basico') }}">Basico</a>
-                    <a href="{{ route('campos') }}">Campos</a>
-                    <a href="{{ route('evaluar') }}">Evaluar</a>
-                    <a href="{{ route('validar') }}">Validar</a>
-                    <a href="{{ route('comprobar') }}">Comprobar</a>
-
-                    <a href="{{ route('colores') }}">Ejemplo:Colores</a><hr>
-                    
-                    <a href="{{ route('jquery') }}">Jquery: Basico</a>
-                    <a href="{{ route('formulario') }}">Jquery: Formulario</a>
-                    <a href="{{ route('entrada') }}">Jquery: Entrada | Login</a>
-                    <a href="{{ route('informacion') }}">Jquery: Lista</a><hr>
-                    <a href="{{ route('combos') }}">Jquery: Combos</a>
-                    <a href="{{ route('random') }}">Jquery: Random</a>
-                    <a href="{{ route('gato') }}">Jquery: Gato</a><hr>
-                   
+                    <a href="{{ route('inicio') }}">Inició</a>
                 </div>
-            </div>
-        </div>
+        </script>
     </body>
 </html>

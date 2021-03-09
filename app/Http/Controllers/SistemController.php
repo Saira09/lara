@@ -25,6 +25,15 @@ class SistemController extends Controller{
     public function combos(){
         $estados = EstadosModel::all();
         return view('combos')
-             ->with(['estados'=>$estados]);;
+             ->with(['estados'=>$estados]);
+    }
+    public function datos(Request $request){
+        dd($request->all());
+        return redirect()->route(('combos'));
+        /*
+         $estados = EstadosModel::all();
+         return view('combos')
+             ->with(['estados'=>$estados]);
+        */
     }
 }

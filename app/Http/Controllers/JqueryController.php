@@ -43,4 +43,11 @@ class JqueryController extends Controller{
               return response()->json($municipioshelp);
             }
     }
+    public function js02b(Request $request){
+      $id_municipio = $request->get('id_municipio');
+      //dd($id_municipio);
+      $usus = UsuariosModel::all();
+      return view("jquery/js_02")
+          ->with(['usus' => $usus]);
+    }
 }
